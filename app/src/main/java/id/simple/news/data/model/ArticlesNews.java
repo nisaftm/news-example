@@ -4,7 +4,6 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-
 public class ArticlesNews implements Serializable {
 
 	@SerializedName("source")

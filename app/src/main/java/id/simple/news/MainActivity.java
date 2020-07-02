@@ -1,15 +1,13 @@
 package id.simple.news;
 
+import android.app.Activity;
+import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.app.Activity;
-import android.content.Context;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<ArticlesNews> arrayNews = new ArrayList<>();
     private Activity activity = this;
     private NewsAdapter adapter;
+    private String TAG = getClass().getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getData() {
-        String url = "http://newsapi.org/v2/";
+        String url = "https://newsapi.org/v2/";
         HashMap<String, String> paramter = new HashMap<>();
         paramter.put("apiKey", "da8ad0b73f3c43748839cfa37c3224d2");
         paramter.put("country", "id");
@@ -60,20 +59,23 @@ public class MainActivity extends AppCompatActivity {
                 if (response.isSuccessful() && response.body() != null){
                     arrayNews.clear();
                     arrayNews.addAll(response.body().getArticles());
+                    Log.e(TAG, "onResponse: "+response.body().getStatus());
+                    Log.e(TAG, "onResponse: "+response.body().getTotalResults());
                     setList();
                 }else {
-                    Toast.makeText(activity, "Error #2", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity, response.message(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseNews> call, Throwable t) {
-                Toast.makeText(activity, "Error", Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     private void setList() {
         adapter.setList(arrayNews);
+        adapter.notifyDataSetChanged();
     }
 }

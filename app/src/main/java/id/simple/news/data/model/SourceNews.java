@@ -7,16 +7,16 @@ import java.io.Serializable;
 public class SourceNews implements Serializable {
 
 	@SerializedName("id")
-	private Object id;
+	private String id;
 
 	@SerializedName("name")
 	private String name;
 
-	public void setId(Object id){
+	public void setId(String id){
 		this.id = id;
 	}
 
-	public Object getId(){
+	public String getId(){
 		return id;
 	}
 

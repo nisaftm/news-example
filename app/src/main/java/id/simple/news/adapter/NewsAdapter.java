@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,7 +32,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.HolderNews> {
 
     @Override
     public void onBindViewHolder(@NonNull HolderNews holder, int position) {
-
+        holder.bind(listData.get(position));
     }
 
     @Override
@@ -40,12 +41,21 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.HolderNews> {
     }
 
     public void setList(ArrayList<ArticlesNews> arrayNews) {
-        this.listData=arrayNews;
+        this.listData.clear();
+        this.listData.addAll(arrayNews);
+
     }
 
-    public class HolderNews extends RecyclerView.ViewHolder {
+    public static class HolderNews extends RecyclerView.ViewHolder {
+        private TextView tvjudul;
+
         public HolderNews(@NonNull View itemView) {
             super(itemView);
+            tvjudul = itemView.findViewById(R.id.tvjudul);
+        }
+
+        public void bind(ArticlesNews item) {
+            tvjudul.setText(item.getTitle());
         }
     }
 }
